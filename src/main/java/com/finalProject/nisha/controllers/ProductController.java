@@ -7,6 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -24,7 +28,7 @@ public class ProductController {
 
     @GetMapping("{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
-        return ResponseEntity.ok().body(ProductService.getProduct(id));
+        return ResponseEntity.ok().body(productService.getProduct(id));
     }
 
     @PostMapping
