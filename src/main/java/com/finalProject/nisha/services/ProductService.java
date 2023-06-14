@@ -75,6 +75,7 @@ public class ProductService {
         productDto.productName = product.getProductName();
         productDto.unitPrice = product.getUnitPrice();
         productDto.categoryId = product.getCategoryId();
+        productDto.description = product.getDescription();
 
         return productDto;
     }
@@ -86,6 +87,7 @@ public class ProductService {
         product.setProductName(productDto.productName);
         product.setUnitPrice(productDto.unitPrice);
         product.setCategoryId(productDto.categoryId);
+        product.setDescription(productDto.description);
 
         return product;
     }
