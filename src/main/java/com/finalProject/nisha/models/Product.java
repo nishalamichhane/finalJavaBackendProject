@@ -15,8 +15,11 @@ public class Product {
     private long id;
     private String productName;
     private double unitPrice;
-    private long categoryId;
+    //private long categoryId;
     private String description;
     @OneToMany(mappedBy = "product")
     private List<Orderline> orderlines;
+
+    @Enumerated(EnumType.STRING)
+    private Category category;
 }
