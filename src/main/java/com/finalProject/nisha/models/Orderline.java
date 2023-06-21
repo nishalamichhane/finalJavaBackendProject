@@ -1,5 +1,6 @@
 package com.finalProject.nisha.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +13,10 @@ public class Orderline {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long productId;
-    private String productName;
     private short quantity;
-    private double unitPrice;
     private double subTotal;
+    @ManyToOne
+    @JoinColumn(name = "productId")
+    @JsonIgnore
+    private Product product;
 }

@@ -73,12 +73,9 @@ public class OrderlineService {
         OrderlineDto orderlineDto = new OrderlineDto();
 
         orderlineDto.id = orderline.getId();
-        orderlineDto.productId = orderline.getProductId();
-        orderlineDto.productName = orderline.getProductName();
         orderlineDto.quantity = orderline.getQuantity();
-        orderlineDto.unitPrice = orderline.getUnitPrice();
         orderlineDto.subTotal = orderline.getSubTotal();
-
+        orderlineDto.product = orderline.getProduct();
         return orderlineDto;
     }
 
@@ -86,12 +83,9 @@ public class OrderlineService {
         Orderline orderline = new Orderline();
 
         // we don't need setId , that generates in the database or will be in de URL
-        orderline.setProductId(orderlineDto.productId);
-        orderline.setProductName(orderlineDto.productName);
         orderline.setQuantity(orderlineDto.quantity);
-        orderline.setUnitPrice(orderlineDto.unitPrice);
         orderline.setSubTotal(orderlineDto.subTotal);
-
+        orderline.setProduct(orderlineDto.product);
         return orderline;
     }
 }
