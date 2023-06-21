@@ -1,6 +1,6 @@
 package com.finalProject.nisha.dtos;
 
-public class Order {
+public class OrderDto {
     public long id;
     public long orderlineId;
     public double total;
