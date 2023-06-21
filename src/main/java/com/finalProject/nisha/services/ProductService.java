@@ -74,7 +74,7 @@ public class ProductService {
         productDto.id = product.getId();
         productDto.productName = product.getProductName();
         productDto.unitPrice = product.getUnitPrice();
-        productDto.categoryId = product.getCategoryId();
+        productDto.category = product.getCategory();
         productDto.description = product.getDescription();
         productDto.orderlines = product.getOrderlines();
 
@@ -87,7 +87,7 @@ public class ProductService {
         // we don't need setId , that generates in the database or will be in de URL
         product.setProductName(productDto.productName);
         product.setUnitPrice(productDto.unitPrice);
-        product.setCategoryId(productDto.categoryId);
+        product.setCategory(productDto.category);
         product.setDescription(productDto.description);
         product.setOrderlines(productDto.orderlines);
 
