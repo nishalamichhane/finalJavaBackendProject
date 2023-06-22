@@ -19,4 +19,9 @@ public class Orderline {
     @JoinColumn(name = "productId")
     @JsonIgnore
     private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "orderId")
+    @JsonIgnore
+    private Order order;
 }
