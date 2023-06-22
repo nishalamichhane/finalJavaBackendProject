@@ -73,9 +73,9 @@ public class OrderService {
         OrderDto orderDto = new OrderDto();
 
         orderDto.id = order.getId();
-        orderDto.orderlineId = order.getOrderlineId();
-        orderDto.total = order.getTotal();
+        orderDto.totalAmount = order.getTotalAmount();
         orderDto.userId = order.getUserId();
+        orderDto.orderline = order.getOrderline();
         return orderDto;
     }
 
@@ -83,9 +83,9 @@ public class OrderService {
         Order order = new Order();
 
         // we don't need setId , that generates in the database or will be in de URL
-        order.setOrderlineId(orderDto.orderlineId);
-        order.setTotal(orderDto.total);
+        order.setTotalAmount(orderDto.totalAmount);
         order.setUserId(orderDto.userId);
+        order.setOrderline(orderDto.orderline);
         return order;
     }
 }

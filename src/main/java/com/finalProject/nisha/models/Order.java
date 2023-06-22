@@ -14,9 +14,8 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long orderlineId;
-    private double total;
+    private double totalAmount;
     private long userId;
-    @OneToMany(mappedBy = "Order")
-    private List<Orderline> orderlines;
+    @OneToMany(mappedBy = "order")
+    private List<Orderline> orderline;
 }

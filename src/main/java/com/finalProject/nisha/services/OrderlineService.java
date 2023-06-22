@@ -76,6 +76,7 @@ public class OrderlineService {
         orderlineDto.quantity = orderline.getQuantity();
         orderlineDto.subTotal = orderline.getSubTotal();
         orderlineDto.product = orderline.getProduct();
+        orderlineDto.order = orderline.getOrder();
         return orderlineDto;
     }
 
@@ -86,6 +87,7 @@ public class OrderlineService {
         orderline.setQuantity(orderlineDto.quantity);
         orderline.setSubTotal(orderlineDto.subTotal);
         orderline.setProduct(orderlineDto.product);
+        orderline.setOrder(orderlineDto.order);
         return orderline;
     }
 }
