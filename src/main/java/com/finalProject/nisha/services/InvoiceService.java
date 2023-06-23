@@ -76,7 +76,7 @@ public class InvoiceService {
         invoiceDto.totalAmount = invoice.getTotalAmount();
         invoiceDto.invoiceDate = invoice.getInvoiceDate();
         invoiceDto.userId = invoice.getUserId();
-        invoiceDto.orderId = invoice.getOrderId();
+        invoiceDto.order = invoice.getOrder();
         return invoiceDto;
     }
 
@@ -87,7 +87,7 @@ public class InvoiceService {
         invoice.setTotalAmount(invoiceDto.totalAmount);
         invoice.setInvoiceDate(invoiceDto.invoiceDate);
         invoice.setUserId(invoiceDto.userId);
-        invoice.setOrderId(invoiceDto.orderId);
+        invoice.setOrder(invoiceDto.order);
         return invoice;
     }
 }
