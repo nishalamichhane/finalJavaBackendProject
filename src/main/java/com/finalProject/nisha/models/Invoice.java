@@ -1,5 +1,6 @@
 package com.finalProject.nisha.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,5 +18,8 @@ public class Invoice {
     private double totalAmount;
     private Date invoiceDate;
     private long userId;
-    private long orderId;
+    @OneToOne
+    @JoinColumn(name = "orderId")
+    @JsonIgnore
+    private Order order;
 }

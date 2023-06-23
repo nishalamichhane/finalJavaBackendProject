@@ -18,4 +18,6 @@ public class Order {
     private long userId;
     @OneToMany(mappedBy = "order")
     private List<Orderline> orderline;
+    @OneToOne(mappedBy = "order")
+    private List<Invoice>  invoice;
 }
