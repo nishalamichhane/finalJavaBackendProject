@@ -1,5 +1,7 @@
 package com.finalProject.nisha.dtos;
 
+import com.finalProject.nisha.models.Order;
+
 import java.util.Date;
 
 public class InvoiceDto {
@@ -7,5 +9,5 @@ public class InvoiceDto {
     public double totalAmount;
     public Date invoiceDate;
     public long userId;
-    public long orderId;
+    public Order order;
 }
