@@ -76,6 +76,7 @@ public class OrderService {
         orderDto.totalAmount = order.getTotalAmount();
         orderDto.userId = order.getUserId();
         orderDto.orderline = order.getOrderline();
+        orderDto.invoice = order.getInvoice();
         return orderDto;
     }
 
@@ -86,6 +87,7 @@ public class OrderService {
         order.setTotalAmount(orderDto.totalAmount);
         order.setUserId(orderDto.userId);
         order.setOrderline(orderDto.orderline);
+        order.setInvoice(orderDto.invoice);
         return order;
     }
 }

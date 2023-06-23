@@ -19,5 +19,5 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<Orderline> orderline;
     @OneToOne(mappedBy = "order")
-    private List<Invoice>  invoice;
+    private Invoice  invoice;
 }

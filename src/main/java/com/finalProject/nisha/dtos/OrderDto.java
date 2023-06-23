@@ -10,5 +10,5 @@ public class OrderDto {
     public double totalAmount;
     public long userId;
     public List<Orderline> orderline;
-    public List<Invoice> invoice;
+    public Invoice invoice;
 }
