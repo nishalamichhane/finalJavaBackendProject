@@ -1,8 +1,10 @@
 package com.finalProject.nisha.controllers;
 
+import com.finalProject.nisha.dtos.InvoiceDto;
 import com.finalProject.nisha.dtos.OrderlineDto;
 import com.finalProject.nisha.services.OrderlineService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -58,6 +60,14 @@ public class OrderlineController {
     public ResponseEntity<Object> deleteOrderline(@PathVariable Long id) {
         orderlineService.deleteOrderline(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/amount")
+    public ResponseEntity<OrderlineDto> getSubTotalAmount(@PathVariable Long id) {
+        OrderlineDto orderlineDto = new OrderlineDto();
+        orderlineDto.id = id;
+        orderlineDto.subTotal = orderlineService.getSubTotalAmount(id);
+        return new ResponseEntity<>(orderlineDto, HttpStatus.OK);
     }
 
 }

@@ -90,4 +90,12 @@ public class OrderlineService {
         orderline.setOrder(orderlineDto.order);
         return orderline;
     }
+    public double getSubTotalAmount(long id) {
+        Optional<Orderline> oo = orderlineRepository.findById(id);
+        if (oo.isPresent()) {
+            Orderline o = oo.get();
+            return o.calculateSubTotalAmount();
+        }
+        return 0;
+    }
 }
