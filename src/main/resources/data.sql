@@ -5,3 +5,15 @@ INSERT INTO users (username, password, email, enabled) VALUES ('admin', '$2a$12$
 INSERT INTO authorities (username, authority) VALUES ('user', 'ROLE_USER');
 INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_USER');
 INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_ADMIN');
+
+INSERT INTO products (category, description, product_name, unit_price) VALUES ('ELECTRONICS', 'testingdesc', 'Jas', 50);
+
+INSERT INTO orders (total_amount, user_id) VALUES (2500, 1);
+INSERT INTO orderline (quantity, sub_total, order_id, product_id) VALUES (50, 2500, 1, 1);
+INSERT INTO invoice (invoice_date, total_amount, user_id, order_id) VALUES ('2023-06-29', 2500, 1, 1);
+
+
+
+
+
+

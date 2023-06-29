@@ -91,6 +91,8 @@ public class SpringSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/invoice/{id}").hasAnyRole("ADMIN","USER")
                 .requestMatchers(HttpMethod.PUT, "/invoice/{id}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/invoice/{id}").hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.GET, "/orderline/{id}/amount").hasAnyRole("ADMIN", "USER")
                 // Je mag meerdere paths tegelijk definieren
                 .requestMatchers("/orderline", "/orders").hasAnyRole("ADMIN", "USER")
 

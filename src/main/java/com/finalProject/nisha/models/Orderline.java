@@ -24,4 +24,7 @@ public class Orderline {
     @JoinColumn(name = "orderId")
     @JsonIgnore
     private Order order;
+    public double calculateSubTotalAmount() {
+        return this.quantity * product.getUnitPrice();
+    }
 }
