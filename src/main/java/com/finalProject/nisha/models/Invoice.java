@@ -17,10 +17,9 @@ public class Invoice {
     private long id;
     private double totalAmount;
     private Date invoiceDate;
-    private long userId;
+
     @OneToOne
     @JoinColumn(name = "orderId")
     @JsonIgnore
     private Order order;
-
 }

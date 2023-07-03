@@ -1,8 +1,10 @@
 package com.finalProject.nisha.controllers;
 
 import com.finalProject.nisha.dtos.InvoiceDto;
+import com.finalProject.nisha.dtos.OrderDto;
 import com.finalProject.nisha.services.InvoiceService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -58,6 +60,11 @@ public class InvoiceController {
     public ResponseEntity<Object> deleteInvoice(@PathVariable Long id) {
         invoiceService.deleteInvoice(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/{id}/invoice")
+    public ResponseEntity<InvoiceDto> getInvoicePerUser(@PathVariable Long id) {
+        InvoiceDto invoiceDto = invoiceService.getInvoicePerUser(id);
+        return new ResponseEntity<>(invoiceDto, HttpStatus.OK);
     }
 
 }
