@@ -22,4 +22,5 @@ public class Invoice {
     @JoinColumn(name = "orderId")
     @JsonIgnore
     private Order order;
+
 }

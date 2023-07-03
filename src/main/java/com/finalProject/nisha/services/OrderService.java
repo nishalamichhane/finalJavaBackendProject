@@ -3,6 +3,7 @@ package com.finalProject.nisha.services;
 import com.finalProject.nisha.dtos.OrderDto;
 import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.models.Order;
+import com.finalProject.nisha.models.Orderline;
 import com.finalProject.nisha.repositories.OrderRepository;
 
 import org.springframework.stereotype.Service;
@@ -89,5 +90,13 @@ public class OrderService {
         order.setOrderline(orderDto.orderline);
         order.setInvoice(orderDto.invoice);
         return order;
+    }
+    public double getTotalAmount(long id) {
+        Optional<Order> ta1 = orderRepository.findById(id);
+        if (ta1.isPresent()) {
+            Order o = ta1.get();
+            return o.calculateTotalAmount();
+        }
+        return 0;
     }
 }

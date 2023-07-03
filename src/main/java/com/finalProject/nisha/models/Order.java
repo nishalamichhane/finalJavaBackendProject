@@ -1,9 +1,8 @@
 package com.finalProject.nisha.models;
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,4 +19,12 @@ public class Order {
     private List<Orderline> orderline;
     @OneToOne(mappedBy = "order")
     private Invoice  invoice;
+
+    public double calculateTotalAmount() {
+        double totalAmount = 0;
+        for (Orderline o : orderline){
+            totalAmount += o.getSubTotal();
+        }
+        return totalAmount;
+    }
 }
