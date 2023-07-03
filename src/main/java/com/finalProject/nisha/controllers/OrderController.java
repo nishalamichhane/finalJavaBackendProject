@@ -1,8 +1,10 @@
 package com.finalProject.nisha.controllers;
 
 import com.finalProject.nisha.dtos.OrderDto;
+import com.finalProject.nisha.dtos.OrderlineDto;
 import com.finalProject.nisha.services.OrderService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -59,5 +61,11 @@ public class OrderController {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
-
+    @GetMapping("/{id}/totalAmount")
+    public ResponseEntity<OrderDto> getTotalAmount(@PathVariable Long id) {
+        OrderDto orderDto = new OrderDto();
+        orderDto.id = id;
+        orderDto.totalAmount = orderService.getTotalAmount(id);
+        return new ResponseEntity<>(orderDto, HttpStatus.OK);
+    }
 }

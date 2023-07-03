@@ -49,9 +49,6 @@ public class SpringSecurityConfig {
                 .and()
                 .build();
     }
-
-
-
     // Authorizatie met jwt
     @Bean
     protected SecurityFilterChain filter (HttpSecurity http) throws Exception {
@@ -93,6 +90,8 @@ public class SpringSecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/invoice/{id}").hasRole("ADMIN")
 
                 .requestMatchers(HttpMethod.GET, "/orderline/{id}/amount").hasAnyRole("ADMIN", "USER")
+                .requestMatchers(HttpMethod.GET, "/orders/{id}/totalAmount").hasAnyRole("ADMIN", "USER")
+
                 // Je mag meerdere paths tegelijk definieren
                 .requestMatchers("/orderline", "/orders").hasAnyRole("ADMIN", "USER")
 
@@ -104,5 +103,4 @@ public class SpringSecurityConfig {
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
 }
