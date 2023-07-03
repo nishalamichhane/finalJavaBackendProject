@@ -2,6 +2,7 @@ package com.finalProject.nisha.models;
 
 import jakarta.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,6 +32,9 @@ public class User {
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> order;
 
     public String getUsername() { return username; }
     public void setUsername(String username) {

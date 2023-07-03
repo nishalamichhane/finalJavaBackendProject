@@ -3,6 +3,7 @@ package com.finalProject.nisha.services;
 import com.finalProject.nisha.dtos.InvoiceDto;
 import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.models.Invoice;
+import com.finalProject.nisha.models.Order;
 import com.finalProject.nisha.repositories.InvoiceRepository;
 
 import org.springframework.stereotype.Service;
@@ -75,7 +76,8 @@ public class InvoiceService {
         invoiceDto.id = invoice.getId();
         invoiceDto.totalAmount = invoice.getTotalAmount();
         invoiceDto.invoiceDate = invoice.getInvoiceDate();
-        invoiceDto.userId = invoice.getUserId();
+        //invoiceDto.userId = invoice.getUserId();
+        invoiceDto.user = invoice.getOrder().getUser();
         invoiceDto.order = invoice.getOrder();
         return invoiceDto;
     }
@@ -86,8 +88,19 @@ public class InvoiceService {
         // we don't need setId , that generates in the database or will be in de URL
         invoice.setTotalAmount(invoiceDto.totalAmount);
         invoice.setInvoiceDate(invoiceDto.invoiceDate);
-        invoice.setUserId(invoiceDto.userId);
+        //invoice.setUserId(invoiceDto.userId);
         invoice.setOrder(invoiceDto.order);
         return invoice;
+    }
+    public InvoiceDto getInvoicePerUser(long id) {
+        Optional<Invoice> ipu = invoiceRepository.findById(id);
+        if (ipu.isPresent()) {
+            Invoice i = ipu.get();
+            InvoiceDto invoiceDto = transferInvoiceToDto(i);
+            return invoiceDto;
+        }
+        else {
+            throw new RecordNotFoundException("There is no invoice present with id: " + id);
+        }
     }
 }

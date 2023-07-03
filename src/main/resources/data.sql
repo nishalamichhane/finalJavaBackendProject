@@ -7,9 +7,9 @@ INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_ADMIN');
 INSERT INTO products (category, description, product_name, unit_price) VALUES
 ('ELECTRONICS', 'Samsung', 'Laptop', 50),
 ('LADIES_CLOTHING', 'heel mooi', 'Jas', 11);
-INSERT INTO orders (total_amount, user_id) VALUES (5000, 1);
+INSERT INTO orders (total_amount, user_id) VALUES (5000, 'admin');
 INSERT INTO orderline (quantity, sub_total, order_id, product_id)
 VALUES
 (50, 2500, 1, 1),
 (50, 2500, 1, 2);
-INSERT INTO invoice (invoice_date, total_amount, user_id, order_id) VALUES ('2023-06-29', 2500, 1, 1);
+INSERT INTO invoice (invoice_date, total_amount, order_id) VALUES ('2023-06-29', 5000, 1);

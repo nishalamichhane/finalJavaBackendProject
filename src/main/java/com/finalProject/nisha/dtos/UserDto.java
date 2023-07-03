@@ -1,6 +1,7 @@
 package com.finalProject.nisha.dtos;
 
 import com.finalProject.nisha.models.Authority;
+import com.finalProject.nisha.models.Invoice;
 
 import java.util.Set;
 

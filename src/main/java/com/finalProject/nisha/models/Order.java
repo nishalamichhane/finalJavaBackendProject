@@ -1,4 +1,5 @@
 package com.finalProject.nisha.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,11 +15,15 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private double totalAmount;
-    private long userId;
     @OneToMany(mappedBy = "order")
     private List<Orderline> orderline;
     @OneToOne(mappedBy = "order")
     private Invoice  invoice;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    @JsonIgnore
+    private User user;
 
     public double calculateTotalAmount() {
         double totalAmount = 0;
