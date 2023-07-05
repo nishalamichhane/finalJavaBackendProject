@@ -91,12 +91,14 @@ public class OrderService {
         order.setInvoice(orderDto.invoice);
         return order;
     }
-    public double getTotalAmount(long id) {
+    public double getTotalAmount(long id) throws RecordNotFoundException {
         Optional<Order> ta1 = orderRepository.findById(id);
         if (ta1.isPresent()) {
             Order o = ta1.get();
             return o.calculateTotalAmount();
         }
-        return 0;
+        else{
+            throw new RecordNotFoundException("Order didn't find with this id: " + id);
+        }
     }
 }

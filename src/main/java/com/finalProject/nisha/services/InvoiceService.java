@@ -30,7 +30,7 @@ public class InvoiceService {
         return invoiceDtos;
     }
 
-    public InvoiceDto getInvoice(Long id) {
+    public InvoiceDto getInvoice(Long id) throws RecordNotFoundException {
         Optional<Invoice> invoiceOptional = invoiceRepository.findById(id);
 
         if(invoiceOptional.isEmpty()) {
@@ -49,7 +49,7 @@ public class InvoiceService {
         return transferInvoiceToDto(invoice);
     }
 
-    public InvoiceDto updateInvoice(Long id, InvoiceDto invoiceDto) {
+    public InvoiceDto updateInvoice(Long id, InvoiceDto invoiceDto) throws RecordNotFoundException {
         Optional<Invoice> invoiceOptional = invoiceRepository.findById(id);
         if(invoiceOptional.isEmpty()) {
             throw new RecordNotFoundException("Invoice didn't find with this id: " + id);
@@ -62,7 +62,7 @@ public class InvoiceService {
         return transferInvoiceToDto(updateInvoice);
     }
 
-    public void deleteInvoice(Long id) {
+    public void deleteInvoice(Long id) throws RecordNotFoundException {
         Optional<Invoice> optionalInvoice = invoiceRepository.findById(id);
         if(optionalInvoice.isEmpty()) {
             throw new RecordNotFoundException("Invoice didn't find with this id: " + id);
@@ -92,7 +92,7 @@ public class InvoiceService {
         invoice.setOrder(invoiceDto.order);
         return invoice;
     }
-    public InvoiceDto getInvoicePerUser(long id) {
+    public InvoiceDto getInvoicePerUser(long id) throws RecordNotFoundException {
         Optional<Invoice> ipu = invoiceRepository.findById(id);
         if (ipu.isPresent()) {
             Invoice i = ipu.get();

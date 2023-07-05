@@ -58,7 +58,7 @@ public class OrderlineController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteOrderline(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteOrderline(@PathVariable Long id) throws RecordNotFoundException {
         orderlineService.deleteOrderline(id);
         return ResponseEntity.noContent().build();
     }

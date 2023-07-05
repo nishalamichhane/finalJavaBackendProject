@@ -2,6 +2,7 @@ package com.finalProject.nisha.controllers;
 
 import com.finalProject.nisha.dtos.UserDto;
 import com.finalProject.nisha.exceptions.BadRequestException;
+import com.finalProject.nisha.exceptions.UsernameNotFoundException;
 import com.finalProject.nisha.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/{username}")
-    public ResponseEntity<UserDto> getUser(@PathVariable("username") String username) {
+    public ResponseEntity<UserDto> getUser(@PathVariable("username") String username) throws UsernameNotFoundException {
 
         UserDto optionalUser = userService.getUser(username);
 

@@ -63,7 +63,7 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/{id}/totalAmount")
-    public ResponseEntity<OrderDto> getTotalAmount(@PathVariable Long id) {
+    public ResponseEntity<OrderDto> getTotalAmount(@PathVariable Long id) throws RecordNotFoundException {
         OrderDto orderDto = new OrderDto();
         orderDto.id = id;
         orderDto.totalAmount = orderService.getTotalAmount(id);

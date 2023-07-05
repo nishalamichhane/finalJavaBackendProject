@@ -90,12 +90,14 @@ public class OrderlineService {
         orderline.setOrder(orderlineDto.order);
         return orderline;
     }
-    public double getSubTotalAmount(long id) {
+    public double getSubTotalAmount(long id) throws RecordNotFoundException {
         Optional<Orderline> oo = orderlineRepository.findById(id);
         if (oo.isPresent()) {
             Orderline o = oo.get();
             return o.calculateSubTotalAmount();
         }
-        return 0;
+        else{
+            throw new RecordNotFoundException("Orderline didn't find with this id: " + id);
+        }
     }
 }
