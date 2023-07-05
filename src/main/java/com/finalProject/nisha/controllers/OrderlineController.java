@@ -2,6 +2,7 @@ package com.finalProject.nisha.controllers;
 
 import com.finalProject.nisha.dtos.InvoiceDto;
 import com.finalProject.nisha.dtos.OrderlineDto;
+import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.services.OrderlineService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class OrderlineController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<OrderlineDto> getOrderline(@PathVariable Long id) {
+    public ResponseEntity<OrderlineDto> getOrderline(@PathVariable Long id) throws RecordNotFoundException {
         return ResponseEntity.ok().body(orderlineService.getOrderline(id));
     }
 
@@ -51,19 +52,19 @@ public class OrderlineController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateOrderline(@PathVariable Long id, @RequestBody OrderlineDto orderlineDto) {
+    public ResponseEntity<Object> updateOrderline(@PathVariable Long id, @RequestBody OrderlineDto orderlineDto) throws RecordNotFoundException {
         OrderlineDto updateOrderline = orderlineService.updateOrderline(id, orderlineDto);
         return ResponseEntity.ok().body(updateOrderline);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteOrderline(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteOrderline(@PathVariable Long id) throws RecordNotFoundException {
         orderlineService.deleteOrderline(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}/amount")
-    public ResponseEntity<OrderlineDto> getSubTotalAmount(@PathVariable Long id) {
+    public ResponseEntity<OrderlineDto> getSubTotalAmount(@PathVariable Long id) throws RecordNotFoundException {
         OrderlineDto orderlineDto = new OrderlineDto();
         orderlineDto.id = id;
         orderlineDto.subTotal = orderlineService.getSubTotalAmount(id);

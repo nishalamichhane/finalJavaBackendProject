@@ -29,11 +29,11 @@ public class OrderlineService {
         return orderlineDtos;
     }
 
-    public OrderlineDto getOrderline(Long id) {
+    public OrderlineDto getOrderline(Long id) throws RecordNotFoundException {
         Optional<Orderline> orderlineOptional = orderlineRepository.findById(id);
 
         if(orderlineOptional.isEmpty()) {
-            throw new RecordNotFoundException("Product didn't find with this id: " + id);
+            throw new RecordNotFoundException("Orderline didn't find with this id: " + id);
         }
 
         Orderline orderline = orderlineOptional.get();
@@ -48,7 +48,7 @@ public class OrderlineService {
         return transferOrderlineToDto(orderline);
     }
 
-    public OrderlineDto updateOrderline(Long id, OrderlineDto orderlineDto) {
+    public OrderlineDto updateOrderline(Long id, OrderlineDto orderlineDto) throws RecordNotFoundException {
         Optional<Orderline> orderlineOptional = orderlineRepository.findById(id);
         if(orderlineOptional.isEmpty()) {
             throw new RecordNotFoundException("Orderline didn't find with this id: " + id);
@@ -61,7 +61,7 @@ public class OrderlineService {
         return transferOrderlineToDto(updateOrderline);
     }
 
-    public void deleteOrderline(Long id) {
+    public void deleteOrderline(Long id) throws RecordNotFoundException {
         Optional<Orderline> optionalOrderline = orderlineRepository.findById(id);
         if(optionalOrderline.isEmpty()) {
             throw new RecordNotFoundException("Orderline didn't find with this id: " + id);
@@ -90,12 +90,14 @@ public class OrderlineService {
         orderline.setOrder(orderlineDto.order);
         return orderline;
     }
-    public double getSubTotalAmount(long id) {
+    public double getSubTotalAmount(long id) throws RecordNotFoundException {
         Optional<Orderline> oo = orderlineRepository.findById(id);
         if (oo.isPresent()) {
             Orderline o = oo.get();
             return o.calculateSubTotalAmount();
         }
-        return 0;
+        else{
+            throw new RecordNotFoundException("Orderline didn't find with this id: " + id);
+        }
     }
 }

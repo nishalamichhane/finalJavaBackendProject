@@ -28,7 +28,7 @@ public class ProductService {
         return productDtos;
     }
 
-    public ProductDto getProduct(Long id) {
+    public ProductDto getProduct(Long id) throws RecordNotFoundException {
         Optional<Product> productOptional = productRepository.findById(id);
 
         if(productOptional.isEmpty()) {
@@ -47,7 +47,7 @@ public class ProductService {
         return transferProductToDto(product);
     }
 
-    public ProductDto updateProduct(Long id, ProductDto productDto) {
+    public ProductDto updateProduct(Long id, ProductDto productDto) throws RecordNotFoundException {
         Optional<Product> productOptional = productRepository.findById(id);
         if(productOptional.isEmpty()) {
             throw new RecordNotFoundException("Product didn't find with this id: " + id);
@@ -60,7 +60,7 @@ public class ProductService {
         return transferProductToDto(updateProduct);
     }
 
-    public void deleteProduct(Long id) {
+    public void deleteProduct(Long id) throws RecordNotFoundException {
         Optional<Product> optionalProduct = productRepository.findById(id);
         if(optionalProduct.isEmpty()) {
             throw new RecordNotFoundException("Product didn't find with this id: " + id);

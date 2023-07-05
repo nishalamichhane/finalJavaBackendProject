@@ -2,6 +2,7 @@ package com.finalProject.nisha.controllers;
 
 import com.finalProject.nisha.dtos.InvoiceDto;
 import com.finalProject.nisha.dtos.OrderDto;
+import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.services.InvoiceService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class InvoiceController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<InvoiceDto> getInvoice(@PathVariable Long id) {
+    public ResponseEntity<InvoiceDto> getInvoice(@PathVariable Long id) throws RecordNotFoundException {
         return ResponseEntity.ok().body(invoiceService.getInvoice(id));
     }
 
@@ -51,18 +52,18 @@ public class InvoiceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateInvoice(@PathVariable Long id, @RequestBody InvoiceDto invoiceDto) {
+    public ResponseEntity<Object> updateInvoice(@PathVariable Long id, @RequestBody InvoiceDto invoiceDto) throws RecordNotFoundException {
         InvoiceDto updateInvoice = invoiceService.updateInvoice(id, invoiceDto);
         return ResponseEntity.ok().body(updateInvoice);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteInvoice(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteInvoice(@PathVariable Long id) throws RecordNotFoundException {
         invoiceService.deleteInvoice(id);
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/{id}/invoice")
-    public ResponseEntity<InvoiceDto> getInvoicePerUser(@PathVariable Long id) {
+    public ResponseEntity<InvoiceDto> getInvoicePerUser(@PathVariable Long id) throws RecordNotFoundException {
         InvoiceDto invoiceDto = invoiceService.getInvoicePerUser(id);
         return new ResponseEntity<>(invoiceDto, HttpStatus.OK);
     }

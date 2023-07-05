@@ -33,7 +33,7 @@ public class UserService {
         return collection;
     }
 
-    public UserDto getUser(String username) {
+    public UserDto getUser(String username) throws RecordNotFoundException {
         UserDto dto = new UserDto();
         Optional<User> user = userRepository.findById(username);
         if (user.isPresent()){
