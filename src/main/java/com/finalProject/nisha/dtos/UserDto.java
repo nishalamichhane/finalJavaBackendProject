@@ -2,15 +2,22 @@ package com.finalProject.nisha.dtos;
 
 import com.finalProject.nisha.models.Authority;
 import com.finalProject.nisha.models.Invoice;
+import jakarta.validation.constraints.*;
 
 import java.util.Set;
 
 public class UserDto {
 
+    @NotBlank (message = "Username should not be blank")
     public String username;
+    @NotBlank(message = "Password should not be blank")
     public String password;
+    @NotNull
     public Boolean enabled;
     public String apikey;
+
+    @NotBlank
+    @Email
     public String email;
     public Set<Authority> authorities;
 

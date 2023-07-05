@@ -3,8 +3,11 @@ package com.finalProject.nisha.controllers;
 import com.finalProject.nisha.dtos.UserDto;
 import com.finalProject.nisha.exceptions.BadRequestException;
 import com.finalProject.nisha.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -42,15 +45,25 @@ public class UserController {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<UserDto> createKlant(@RequestBody UserDto dto) {;
+    public ResponseEntity<Object> createKlant(@Valid @RequestBody UserDto dto, BindingResult br) {;
+        if(br.hasFieldErrors()) {
+            StringBuilder sb = new StringBuilder();
+            for (FieldError fe : br.getFieldErrors()) {
+                sb.append(fe.getField() + ": ");
+                sb.append(fe.getDefaultMessage());
+                sb.append("\n");
+            }
+            return ResponseEntity.badRequest().body(sb.toString());
+        }else {
 
-        String newUsername = userService.createUser(dto);
-        userService.addAuthority(newUsername, "ROLE_USER");
+            String newUsername = userService.createUser(dto);
+            userService.addAuthority(newUsername, "ROLE_USER");
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
-                .buildAndExpand(newUsername).toUri();
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
+                    .buildAndExpand(newUsername).toUri();
 
-        return ResponseEntity.created(location).build();
+            return ResponseEntity.created(location).build();
+        }
     }
 
     @PutMapping(value = "/{username}")
