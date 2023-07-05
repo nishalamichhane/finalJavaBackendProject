@@ -1,6 +1,7 @@
 package com.finalProject.nisha.controllers;
 
 import com.finalProject.nisha.dtos.ProductDto;
+import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
+    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) throws RecordNotFoundException {
         return ResponseEntity.ok().body(productService.getProduct(id));
     }
 
