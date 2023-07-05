@@ -2,6 +2,7 @@ package com.finalProject.nisha.controllers;
 
 import com.finalProject.nisha.dtos.OrderDto;
 import com.finalProject.nisha.dtos.OrderlineDto;
+import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.services.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class OrderController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<OrderDto> getOrder(@PathVariable Long id) {
+    public ResponseEntity<OrderDto> getOrder(@PathVariable Long id) throws RecordNotFoundException{
         return ResponseEntity.ok().body(orderService.getOrder(id));
     }
 
@@ -51,13 +52,13 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateOrder(@PathVariable Long id, @RequestBody OrderDto orderDto) {
+    public ResponseEntity<Object> updateOrder(@PathVariable Long id, @RequestBody OrderDto orderDto) throws RecordNotFoundException {
         OrderDto updateOrder = orderService.updateOrder(id, orderDto);
         return ResponseEntity.ok().body(updateOrder);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteOrder(@PathVariable Long id) throws RecordNotFoundException {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }

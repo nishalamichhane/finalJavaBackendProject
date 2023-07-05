@@ -52,7 +52,7 @@ public class OrderlineController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateOrderline(@PathVariable Long id, @RequestBody OrderlineDto orderlineDto) {
+    public ResponseEntity<Object> updateOrderline(@PathVariable Long id, @RequestBody OrderlineDto orderlineDto) throws RecordNotFoundException {
         OrderlineDto updateOrderline = orderlineService.updateOrderline(id, orderlineDto);
         return ResponseEntity.ok().body(updateOrderline);
     }
@@ -64,7 +64,7 @@ public class OrderlineController {
     }
 
     @GetMapping("/{id}/amount")
-    public ResponseEntity<OrderlineDto> getSubTotalAmount(@PathVariable Long id) {
+    public ResponseEntity<OrderlineDto> getSubTotalAmount(@PathVariable Long id) throws RecordNotFoundException {
         OrderlineDto orderlineDto = new OrderlineDto();
         orderlineDto.id = id;
         orderlineDto.subTotal = orderlineService.getSubTotalAmount(id);

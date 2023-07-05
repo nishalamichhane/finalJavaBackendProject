@@ -30,7 +30,7 @@ public class OrderService {
         return orderDtos;
     }
 
-    public OrderDto getOrder(Long id) {
+    public OrderDto getOrder(Long id) throws RecordNotFoundException {
         Optional<Order> orderOptional = orderRepository.findById(id);
 
         if(orderOptional.isEmpty()) {
@@ -49,7 +49,7 @@ public class OrderService {
         return transferOrderToDto(order);
     }
 
-    public OrderDto updateOrder(Long id, OrderDto orderDto) {
+    public OrderDto updateOrder(Long id, OrderDto orderDto) throws RecordNotFoundException {
         Optional<Order> orderOptional = orderRepository.findById(id);
         if(orderOptional.isEmpty()) {
             throw new RecordNotFoundException("Order didn't find with this id: " + id);
@@ -62,7 +62,7 @@ public class OrderService {
         return transferOrderToDto(updateOrder);
     }
 
-    public void deleteOrder(Long id) {
+    public void deleteOrder(Long id) throws RecordNotFoundException {
         Optional<Order> optionalOrder = orderRepository.findById(id);
         if(optionalOrder.isEmpty()) {
             throw new RecordNotFoundException("Order didn't find with this id: " + id);

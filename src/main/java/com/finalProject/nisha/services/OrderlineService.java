@@ -33,7 +33,7 @@ public class OrderlineService {
         Optional<Orderline> orderlineOptional = orderlineRepository.findById(id);
 
         if(orderlineOptional.isEmpty()) {
-            throw new RecordNotFoundException("Product didn't find with this id: " + id);
+            throw new RecordNotFoundException("Orderline didn't find with this id: " + id);
         }
 
         Orderline orderline = orderlineOptional.get();
@@ -48,7 +48,7 @@ public class OrderlineService {
         return transferOrderlineToDto(orderline);
     }
 
-    public OrderlineDto updateOrderline(Long id, OrderlineDto orderlineDto) {
+    public OrderlineDto updateOrderline(Long id, OrderlineDto orderlineDto) throws RecordNotFoundException {
         Optional<Orderline> orderlineOptional = orderlineRepository.findById(id);
         if(orderlineOptional.isEmpty()) {
             throw new RecordNotFoundException("Orderline didn't find with this id: " + id);
@@ -61,7 +61,7 @@ public class OrderlineService {
         return transferOrderlineToDto(updateOrderline);
     }
 
-    public void deleteOrderline(Long id) {
+    public void deleteOrderline(Long id) throws RecordNotFoundException {
         Optional<Orderline> optionalOrderline = orderlineRepository.findById(id);
         if(optionalOrderline.isEmpty()) {
             throw new RecordNotFoundException("Orderline didn't find with this id: " + id);
