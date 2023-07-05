@@ -50,13 +50,13 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
+    public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) throws RecordNotFoundException{
         ProductDto updateProduct = productService.updateProduct(id, productDto);
         return ResponseEntity.ok().body(updateProduct);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteProduct(@PathVariable Long id) throws RecordNotFoundException  {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
