@@ -29,7 +29,7 @@ public class OrderlineService {
         return orderlineDtos;
     }
 
-    public OrderlineDto getOrderline(Long id) {
+    public OrderlineDto getOrderline(Long id) throws RecordNotFoundException {
         Optional<Orderline> orderlineOptional = orderlineRepository.findById(id);
 
         if(orderlineOptional.isEmpty()) {

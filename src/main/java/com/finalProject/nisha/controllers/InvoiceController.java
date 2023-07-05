@@ -29,7 +29,7 @@ public class InvoiceController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<InvoiceDto> getInvoice(@PathVariable Long id) {
+    public ResponseEntity<InvoiceDto> getInvoice(@PathVariable Long id)  {
         return ResponseEntity.ok().body(invoiceService.getInvoice(id));
     }
 
