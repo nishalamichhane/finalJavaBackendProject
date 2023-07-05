@@ -2,6 +2,7 @@ package com.finalProject.nisha.controllers;
 
 import com.finalProject.nisha.dtos.InvoiceDto;
 import com.finalProject.nisha.dtos.OrderlineDto;
+import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.services.OrderlineService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class OrderlineController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<OrderlineDto> getOrderline(@PathVariable Long id) {
+    public ResponseEntity<OrderlineDto> getOrderline(@PathVariable Long id) throws RecordNotFoundException {
         return ResponseEntity.ok().body(orderlineService.getOrderline(id));
     }
 
