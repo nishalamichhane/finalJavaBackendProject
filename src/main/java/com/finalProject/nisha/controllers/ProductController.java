@@ -2,14 +2,20 @@ package com.finalProject.nisha.controllers;
 
 import com.finalProject.nisha.dtos.ProductDto;
 import com.finalProject.nisha.exceptions.RecordNotFoundException;
+import com.finalProject.nisha.repositories.ProductRepository;
 import com.finalProject.nisha.services.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -20,6 +26,33 @@ public class ProductController {
 
     public ProductController(ProductService productService) {
         this.productService = productService;
+    }
+
+    @PostMapping
+    public ResponseEntity<String>SingleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
+        Product uploadFile = new Product();
+        uploadFile.setFilename("newFile");
+        uploadFile.setDocfile(file.getBytes());
+        productRepository.save(uploadFile);
+        return ResponseEntity.ok("Image has been uploaded");
+    }
+
+    @GetMapping("{fileId}")
+    public ResponseEntity<byte[]> downloadSingleFile(@PathVariable Long fileId) {
+
+        Product file = productRepository.findById(fileId).orElseThrow(() -> new RuntimeException());
+        byte[] docFile = file.getDocfile();
+
+        if (docFile == null) {
+            throw new RuntimeException("there is no file yet.");
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+//        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", "file" + file.getFilename() + ".png");
+        headers.setContentLength(docFile.length);
+
+        return new ResponseEntity<>(docFile, headers, HttpStatus.OK);
     }
 
     @GetMapping

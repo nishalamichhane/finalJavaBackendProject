@@ -21,6 +21,11 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Orderline> orderlines;
 
+    private String name;
+    private String type;
+    @Lob
+    private byte[] imageData;
+
     @Enumerated(EnumType.STRING)
     private Category category;
 }

@@ -5,7 +5,9 @@ import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.models.Product;
 import com.finalProject.nisha.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +29,7 @@ public class ProductService {
 
         return productDtos;
     }
+
 
     public ProductDto getProduct(Long id) throws RecordNotFoundException {
         Optional<Product> productOptional = productRepository.findById(id);
@@ -93,4 +96,5 @@ public class ProductService {
 
         return product;
     }
+
 }
