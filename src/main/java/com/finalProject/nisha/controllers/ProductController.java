@@ -29,30 +29,19 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<String>SingleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
-        Product uploadFile = new Product();
-        uploadFile.setFilename("newFile");
-        uploadFile.setDocfile(file.getBytes());
-        productRepository.save(uploadFile);
-        return ResponseEntity.ok("Image has been uploaded");
+    public ResponseEntity<?> uploadImage(@RequestParam("image")MultipartFile file) throws IOException {
+        String uploadImage = productService.uploadImage(file);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(uploadImage);
     }
 
-    @GetMapping("{fileId}")
-    public ResponseEntity<byte[]> downloadSingleFile(@PathVariable Long fileId) {
+    @GetMapping("/{fileName}")
+    public ResponseEntity<?> downloadImage(@PathVariable String fileName){
+        byte[] imageData=productService.downloadImage(fileName);
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(imageData);
 
-        Product file = productRepository.findById(fileId).orElseThrow(() -> new RuntimeException());
-        byte[] docFile = file.getDocfile();
-
-        if (docFile == null) {
-            throw new RuntimeException("there is no file yet.");
-        }
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_JPEG);
-//        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("attachment", "file" + file.getFilename() + ".png");
-        headers.setContentLength(docFile.length);
-
-        return new ResponseEntity<>(docFile, headers, HttpStatus.OK);
     }
 
     @GetMapping

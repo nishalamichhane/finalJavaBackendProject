@@ -4,6 +4,7 @@ import com.finalProject.nisha.dtos.ProductDto;
 import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.models.Product;
 import com.finalProject.nisha.repositories.ProductRepository;
+import com.finalProject.nisha.util.ImageUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -95,6 +96,23 @@ public class ProductService {
         product.setOrderlines(productDto.orderlines);
 
         return product;
+    }
+    public String uploadImage(MultipartFile file) throws IOException {
+
+        Product imageData = productRepository.save(Product.builder()
+                .name(file.getOriginalFilename())
+                .type(file.getContentType())
+                .imageData(ImageUtils.compressImage(file.getBytes())).build());
+        if (imageData != null) {
+            return "file uploaded successfully : " + file.getOriginalFilename();
+        }
+        return null;
+    }
+
+    public byte[] downloadImage(String fileName){
+        Optional<Product> dbImageData = productRepository.findByName(fileName);
+        byte[] images=ImageUtils.decompressImage(dbImageData.get().getImageData());
+        return images;
     }
 
 }

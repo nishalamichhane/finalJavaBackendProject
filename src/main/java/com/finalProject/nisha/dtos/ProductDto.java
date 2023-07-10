@@ -21,9 +21,5 @@ public class ProductDto {
     @NotBlank
     public String description;
 
-    private String name;
-    private String type;
-    @Lob
-    private byte[] imageData;
     public List<Orderline> orderlines;
 }
