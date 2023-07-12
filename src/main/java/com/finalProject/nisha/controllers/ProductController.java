@@ -2,20 +2,28 @@ package com.finalProject.nisha.controllers;
 
 import com.finalProject.nisha.dtos.ProductDto;
 import com.finalProject.nisha.exceptions.RecordNotFoundException;
+import com.finalProject.nisha.repositories.ProductRepository;
 import com.finalProject.nisha.services.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+    @Autowired
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
@@ -27,7 +35,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.getAllProducts());
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) throws RecordNotFoundException {
         return ResponseEntity.ok().body(productService.getProduct(id));
     }
@@ -48,7 +56,21 @@ public class ProductController {
             return ResponseEntity.created(uri).body(addedProduct);
         }
     }
+    @PostMapping("/image")
+    public ResponseEntity<?> uploadImage(@RequestParam("image")MultipartFile file, @RequestParam() Long id) throws IOException {
+        String uploadImage = productService.uploadImage(file, id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(uploadImage);
+    }
 
+    @GetMapping("/download/{id}")
+    public ResponseEntity<?> downloadImage(@PathVariable Long id){
+        byte[] imageData=productService.downloadImage(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(imageData);
+
+    }
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) throws RecordNotFoundException{
         ProductDto updateProduct = productService.updateProduct(id, productDto);

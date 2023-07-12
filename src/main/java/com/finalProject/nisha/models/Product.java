@@ -1,8 +1,8 @@
 package com.finalProject.nisha.models;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -10,6 +10,10 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name="products")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +25,12 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Orderline> orderlines;
 
+    private String name;
+    private String type;
+    @Lob
+    private byte[] imageData;
+
     @Enumerated(EnumType.STRING)
     private Category category;
+
 }
