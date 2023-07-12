@@ -5,6 +5,7 @@ import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.models.Product;
 import com.finalProject.nisha.repositories.ProductRepository;
 import com.finalProject.nisha.util.ImageUtils;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -129,8 +130,9 @@ public class ProductService {
         return null;
     }
 
-    public byte[] downloadImage(String fileName){
-        Optional<Product> dbImageData = productRepository.findByName(fileName);
+    @Transactional
+    public byte[] downloadImage(Long id){
+        Optional<Product> dbImageData = productRepository.findById(id);
         byte[] images=ImageUtils.decompressImage(dbImageData.get().getImageData());
         return images;
     }

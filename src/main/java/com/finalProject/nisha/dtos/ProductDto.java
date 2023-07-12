@@ -1,5 +1,6 @@
 package com.finalProject.nisha.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.finalProject.nisha.models.Category;
 import com.finalProject.nisha.models.Orderline;
 import jakarta.persistence.Lob;
@@ -25,6 +26,7 @@ public class ProductDto {
     public String name;
     public String type;
     @Lob
+    @JsonIgnore
     public byte[] imageData;
     public List<Orderline> orderlines;
 }

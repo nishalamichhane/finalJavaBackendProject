@@ -63,9 +63,9 @@ public class ProductController {
                 .body(uploadImage);
     }
 
-    @GetMapping("/download/{fileName}")
-    public ResponseEntity<?> downloadImage(@PathVariable String fileName){
-        byte[] imageData=productService.downloadImage(fileName);
+    @GetMapping("/download/{id}")
+    public ResponseEntity<?> downloadImage(@PathVariable Long id){
+        byte[] imageData=productService.downloadImage(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("image/png"))
                 .body(imageData);

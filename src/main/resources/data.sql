@@ -4,9 +4,9 @@ INSERT INTO users (username, password, email, enabled) VALUES ('admin', '$2a$12$
 INSERT INTO authorities (username, authority) VALUES ('user', 'ROLE_USER');
 INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_USER');
 INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_ADMIN');
-INSERT INTO products (category, description, product_name, unit_price) VALUES
-('ELECTRONICS', 'Samsung', 'Laptop', 50),
-('LADIES_CLOTHING', 'heel mooi', 'Jas', 11);
+INSERT INTO products (category, description, product_name, unit_price, image_data, name, type) VALUES
+('ELECTRONICS', 'Samsung', 'Laptop', 50, '34058', 'jas.png', 'image/png'),
+('LADIES_CLOTHING', 'heel mooi', 'Jas', 11, '34059', 'ring.png', 'image/png');
 INSERT INTO orders (total_amount, user_id) VALUES (5000, 'admin');
 INSERT INTO orderline (quantity, sub_total, order_id, product_id)
 VALUES

@@ -71,7 +71,7 @@ public class SpringSecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/products/{id}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/products/{id}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/products/image").hasAnyRole("ADMIN", "USER")
-                .requestMatchers(HttpMethod.GET, "/products/download/{fileName}").hasAnyRole("ADMIN", "USER")
+                .requestMatchers(HttpMethod.GET, "/products/download/{id}").hasAnyRole("ADMIN", "USER")
 
                 .requestMatchers(HttpMethod.POST, "/orderline/").hasAnyRole("ADMIN", "USER")
                 .requestMatchers(HttpMethod.GET, "/orderline/").hasAnyRole("ADMIN", "USER")
