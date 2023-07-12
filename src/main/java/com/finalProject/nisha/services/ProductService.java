@@ -57,10 +57,21 @@ public class ProductService {
             throw new RecordNotFoundException("Product didn't find with this id: " + id);
         }
 
-        Product updateProduct = transferDtoToProduct(productDto);
+        //Product updateProduct = transferDtoToProduct(productDto);
+        Product updateProduct = productOptional.get();
         updateProduct.setId(id);
+        updateProduct.setProductName(productDto.productName);
+        if(productDto.description!=null)
+        updateProduct.setDescription(productDto.description);
+        if(productDto.name!=null)
+        updateProduct.setName(productDto.name);
+        if(productDto.type!=null)
+        updateProduct.setType(productDto.type);
+        if(productDto.imageData!=null)
+        updateProduct.setImageData(productDto.imageData);
+        updateProduct.setUnitPrice(productDto.unitPrice);
+        updateProduct.setCategory(productDto.category);
         productRepository.save(updateProduct);
-
         return transferProductToDto(updateProduct);
     }
 
@@ -93,13 +104,22 @@ public class ProductService {
         product.setUnitPrice(productDto.unitPrice);
         product.setCategory(productDto.category);
         product.setDescription(productDto.description);
+        product.setName(productDto.name);
+        product.setImageData(productDto.imageData);
+        product.setType(productDto.type);
         product.setOrderlines(productDto.orderlines);
 
         return product;
     }
-    public String uploadImage(MultipartFile file) throws IOException {
-
-        Product imageData = productRepository.save(Product.builder()
+    public String uploadImage(MultipartFile file, Long id) throws IOException {
+        Optional<Product> optionalProduct1 = productRepository.findById(id);
+        Product product = optionalProduct1.get();
+        Product imageData = productRepository.save(Product.builder().id(product.getId())
+                        .productName(product.getProductName())
+                        .description(product.getDescription())
+                        .id(product.getId())
+                        .unitPrice(product.getUnitPrice())
+                        .category(product.getCategory())
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .imageData(ImageUtils.compressImage(file.getBytes())).build());

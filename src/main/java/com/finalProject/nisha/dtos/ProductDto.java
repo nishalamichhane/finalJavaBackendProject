@@ -3,6 +3,7 @@ package com.finalProject.nisha.dtos;
 import com.finalProject.nisha.models.Category;
 import com.finalProject.nisha.models.Orderline;
 import jakarta.persistence.Lob;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.*;
 
 import java.util.List;
@@ -21,5 +22,9 @@ public class ProductDto {
     @NotBlank
     public String description;
 
+    public String name;
+    public String type;
+    @Lob
+    public byte[] imageData;
     public List<Orderline> orderlines;
 }

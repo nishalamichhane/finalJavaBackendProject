@@ -1,5 +1,6 @@
 package com.finalProject.nisha.models;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 

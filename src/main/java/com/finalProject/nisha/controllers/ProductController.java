@@ -5,6 +5,7 @@ import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.repositories.ProductRepository;
 import com.finalProject.nisha.services.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,26 +23,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+    @Autowired
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
-    }
-
-    @PostMapping
-    public ResponseEntity<?> uploadImage(@RequestParam("image")MultipartFile file) throws IOException {
-        String uploadImage = productService.uploadImage(file);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(uploadImage);
-    }
-
-    @GetMapping("/{fileName}")
-    public ResponseEntity<?> downloadImage(@PathVariable String fileName){
-        byte[] imageData=productService.downloadImage(fileName);
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.valueOf("image/png"))
-                .body(imageData);
-
     }
 
     @GetMapping
@@ -49,7 +35,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.getAllProducts());
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) throws RecordNotFoundException {
         return ResponseEntity.ok().body(productService.getProduct(id));
     }
@@ -70,7 +56,21 @@ public class ProductController {
             return ResponseEntity.created(uri).body(addedProduct);
         }
     }
+    @PostMapping("/image")
+    public ResponseEntity<?> uploadImage(@RequestParam("image")MultipartFile file, @RequestParam() Long id) throws IOException {
+        String uploadImage = productService.uploadImage(file, id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(uploadImage);
+    }
 
+    @GetMapping("/download/{fileName}")
+    public ResponseEntity<?> downloadImage(@PathVariable String fileName){
+        byte[] imageData=productService.downloadImage(fileName);
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(imageData);
+
+    }
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) throws RecordNotFoundException{
         ProductDto updateProduct = productService.updateProduct(id, productDto);
