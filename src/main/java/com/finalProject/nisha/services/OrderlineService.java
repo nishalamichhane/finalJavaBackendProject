@@ -4,13 +4,14 @@ import com.finalProject.nisha.dtos.OrderlineDto;
 import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.models.Orderline;
 import com.finalProject.nisha.repositories.OrderlineRepository;
-
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 @Service
+@Transactional
 public class OrderlineService {
     private final OrderlineRepository orderlineRepository;
 
@@ -35,9 +36,7 @@ public class OrderlineService {
         if(orderlineOptional.isEmpty()) {
             throw new RecordNotFoundException("Orderline didn't find with this id: " + id);
         }
-
         Orderline orderline = orderlineOptional.get();
-
         return transferOrderlineToDto(orderline);
     }
 

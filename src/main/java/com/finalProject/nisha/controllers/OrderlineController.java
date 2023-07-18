@@ -16,7 +16,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/orderline")
+@RequestMapping("/orderlines")
 public class OrderlineController {
     private final OrderlineService orderlineService;
 
@@ -29,7 +29,7 @@ public class OrderlineController {
         return ResponseEntity.ok().body(orderlineService.getAllOrderline());
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<OrderlineDto> getOrderline(@PathVariable Long id) throws RecordNotFoundException {
         return ResponseEntity.ok().body(orderlineService.getOrderline(id));
     }

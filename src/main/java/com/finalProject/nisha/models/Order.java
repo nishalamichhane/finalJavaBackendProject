@@ -15,14 +15,17 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private double totalAmount;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "order")
     private List<Orderline> orderline;
+
+    @JsonIgnore
     @OneToOne(mappedBy = "order")
     private Invoice  invoice;
-
-    @ManyToOne
-    @JoinColumn(name = "userId")
     @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "username")
     private User user;
 
     public double calculateTotalAmount() {

@@ -29,7 +29,7 @@ public class InvoiceController {
         return ResponseEntity.ok().body(invoiceService.getAllInvoice());
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<InvoiceDto> getInvoice(@PathVariable Long id) throws RecordNotFoundException {
         return ResponseEntity.ok().body(invoiceService.getInvoice(id));
     }

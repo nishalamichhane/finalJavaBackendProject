@@ -3,21 +3,28 @@ package com.finalProject.nisha.services;
 import com.finalProject.nisha.dtos.InvoiceDto;
 import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.models.Invoice;
-import com.finalProject.nisha.models.Order;
 import com.finalProject.nisha.repositories.InvoiceRepository;
-
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 @Service
+@Transactional
 public class InvoiceService {
     private final InvoiceRepository invoiceRepository;
 
     public InvoiceService(InvoiceRepository invoiceRepository) {
         this.invoiceRepository = invoiceRepository;
+        //this.mailSender = mailSender;
     }
+    //private final JavaMailSender mailSender;
+
+//    public EmailSenderServiceImpl(JavaMailSender mailSender) {
+//        this.mailSender = mailSender;
+//    }
 
     public List<InvoiceDto> getAllInvoice() {
         Iterable<Invoice> invoice = invoiceRepository.findAll();
@@ -76,7 +83,6 @@ public class InvoiceService {
         invoiceDto.id = invoice.getId();
         invoiceDto.totalAmount = invoice.getTotalAmount();
         invoiceDto.invoiceDate = invoice.getInvoiceDate();
-        //invoiceDto.userId = invoice.getUserId();
         invoiceDto.user = invoice.getOrder().getUser();
         invoiceDto.order = invoice.getOrder();
         return invoiceDto;
@@ -103,4 +109,5 @@ public class InvoiceService {
             throw new RecordNotFoundException("There is no invoice present with id: " + id);
         }
     }
+
 }
