@@ -15,11 +15,13 @@ public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private double totalAmount;
+    private Double totalAmount;
     private Date invoiceDate;
 
     @OneToOne
     @JoinColumn(name = "orderId")
     @JsonIgnore
     private Order order;
+
+
 }

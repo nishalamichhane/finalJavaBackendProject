@@ -6,12 +6,14 @@ import com.finalProject.nisha.models.Order;
 import com.finalProject.nisha.models.Orderline;
 import com.finalProject.nisha.repositories.OrderRepository;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
+@Transactional
 public class OrderService {
     private final OrderRepository orderRepository;
 
@@ -76,8 +78,8 @@ public class OrderService {
         orderDto.id = order.getId();
         orderDto.totalAmount = order.getTotalAmount();
         orderDto.user = order.getUser();
-        orderDto.orderline = order.getOrderline();
-        orderDto.invoice = order.getInvoice();
+        //orderDto.orderline = order.getOrderline();
+        //orderDto.invoice = order.getInvoice();
         return orderDto;
     }
 
@@ -87,8 +89,8 @@ public class OrderService {
         // we don't need setId , that generates in the database or will be in de URL
         order.setTotalAmount(orderDto.totalAmount);
         order.setUser(orderDto.user);
-        order.setOrderline(orderDto.orderline);
-        order.setInvoice(orderDto.invoice);
+        //order.setOrderline(orderDto.orderline);
+        //order.setInvoice(orderDto.invoice);
         return order;
     }
     public double getTotalAmount(long id) throws RecordNotFoundException {

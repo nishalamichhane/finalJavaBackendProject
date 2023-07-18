@@ -29,7 +29,7 @@ public class OrderController {
         return ResponseEntity.ok().body(orderService.getAllOrder());
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<OrderDto> getOrder(@PathVariable Long id) throws RecordNotFoundException{
         return ResponseEntity.ok().body(orderService.getOrder(id));
     }

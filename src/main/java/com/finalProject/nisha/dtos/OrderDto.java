@@ -10,6 +10,6 @@ public class OrderDto {
     public long id;
     public double totalAmount;
     public User user;
-    public List<Orderline> orderline;
-    public Invoice invoice;
+    //public List<Orderline> orderline;
+    //public Invoice invoice;
 }

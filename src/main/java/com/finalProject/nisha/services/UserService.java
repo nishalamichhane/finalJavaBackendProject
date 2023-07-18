@@ -6,6 +6,7 @@ import com.finalProject.nisha.models.Authority;
 import com.finalProject.nisha.models.User;
 import com.finalProject.nisha.repositories.UserRepository;
 import com.finalProject.nisha.utils.RandomStringGenerator;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Transactional
 public class UserService {
     private final UserRepository userRepository;
 

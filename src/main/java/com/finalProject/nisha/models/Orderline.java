@@ -1,5 +1,6 @@
 package com.finalProject.nisha.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -11,17 +12,19 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name="orderline")
+@Table(name="orderlines")
 public class Orderline {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private short quantity;
     private double subTotal;
+
     @ManyToOne
     @JoinColumn(name = "productId")
     @JsonIgnore
     private Product product;
+
 
     @ManyToOne
     @JoinColumn(name = "orderId")
