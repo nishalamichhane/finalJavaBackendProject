@@ -5,6 +5,8 @@ import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.models.Invoice;
 import com.finalProject.nisha.repositories.InvoiceRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,15 +18,10 @@ import java.util.Optional;
 public class InvoiceService {
     private final InvoiceRepository invoiceRepository;
 
-    public InvoiceService(InvoiceRepository invoiceRepository) {
+    public InvoiceService(InvoiceRepository invoiceRepository, JavaMailSender mailSender) {
         this.invoiceRepository = invoiceRepository;
-        //this.mailSender = mailSender;
+        this.mailSender = mailSender;
     }
-    //private final JavaMailSender mailSender;
-
-//    public EmailSenderServiceImpl(JavaMailSender mailSender) {
-//        this.mailSender = mailSender;
-//    }
 
     public List<InvoiceDto> getAllInvoice() {
         Iterable<Invoice> invoice = invoiceRepository.findAll();
@@ -37,16 +34,32 @@ public class InvoiceService {
         return invoiceDtos;
     }
 
+
     public InvoiceDto getInvoice(Long id) throws RecordNotFoundException {
         Optional<Invoice> invoiceOptional = invoiceRepository.findById(id);
 
         if(invoiceOptional.isEmpty()) {
             throw new RecordNotFoundException("Invoice didn't find with this id: " + id);
         }
-
         Invoice invoice = invoiceOptional.get();
-
         return transferInvoiceToDto(invoice);
+    }
+
+    public void getInvoiceDetails(Long id){
+        Optional<Invoice> optional = invoiceRepository.findById(id);
+        Invoice invoice = optional.get();
+
+        double amount = invoice.getTotalAmount();
+        Long orderid = invoice.getOrder().getId();
+        Date date = invoice.getInvoiceDate();
+        String username = invoice.getOrder().getUser().getUsername();
+        String subject = "This is the invoice date for your order" + date + " ," + username + ".";
+                String email = invoice.getOrder().getUser().getEmail();
+        String body = username + "," +
+                " This is your email of Invoice. " +
+                "Order Id is " + orderid + "," +
+                "Total Amount is "+ amount + ".";
+        sendSimpleEmail(email, subject, body);
     }
 
     public InvoiceDto addInvoice(InvoiceDto invoiceDto) {
@@ -108,6 +121,19 @@ public class InvoiceService {
         else {
             throw new RecordNotFoundException("There is no invoice present with id: " + id);
         }
+    }
+    private JavaMailSender mailSender;
+    public void sendSimpleEmail(String toEmail,
+                                String subject,
+                                String body
+    ) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("nishaonlineshoppingjava@gmail.com");
+        message.setTo(toEmail);
+        message.setText(body);
+        message.setSubject(subject);
+        mailSender.send(message);
+        System.out.println("Mail Sent successfully...");
     }
 
 }
