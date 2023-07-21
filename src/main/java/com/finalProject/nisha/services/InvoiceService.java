@@ -49,7 +49,7 @@ public class InvoiceService {
         Optional<Invoice> optional = invoiceRepository.findById(id);
         Invoice invoice = optional.get();
 
-        double amount = invoice.getTotalAmount();
+        double amount = invoice.getOrder().getTotalAmount();
         Long orderid = invoice.getOrder().getId();
         Date date = invoice.getInvoiceDate();
         String username = invoice.getOrder().getUser().getUsername();
@@ -94,7 +94,6 @@ public class InvoiceService {
         InvoiceDto invoiceDto = new InvoiceDto();
 
         invoiceDto.id = invoice.getId();
-        invoiceDto.totalAmount = invoice.getTotalAmount();
         invoiceDto.invoiceDate = invoice.getInvoiceDate();
         invoiceDto.user = invoice.getOrder().getUser();
         invoiceDto.order = invoice.getOrder();
@@ -105,7 +104,6 @@ public class InvoiceService {
         Invoice invoice = new Invoice();
 
         // we don't need setId , that generates in the database or will be in de URL
-        invoice.setTotalAmount(invoiceDto.totalAmount);
         invoice.setInvoiceDate(invoiceDto.invoiceDate);
         //invoice.setUserId(invoiceDto.userId);
         invoice.setOrder(invoiceDto.order);
