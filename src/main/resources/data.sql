@@ -11,4 +11,4 @@ INSERT INTO orderlines (quantity, sub_total, order_id, product_id)
 VALUES
 (50, 2500, 1, 1),
 (50, 2500, 1, 2);
-INSERT INTO invoice (invoice_date, total_amount, order_id) VALUES ('2023-06-29', 5000, 1);
+INSERT INTO invoice (invoice_date, order_id) VALUES ('2023-06-29', 1);

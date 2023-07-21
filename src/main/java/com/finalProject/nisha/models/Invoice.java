@@ -15,7 +15,6 @@ public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private Double totalAmount;
     private Date invoiceDate;
 
     @OneToOne

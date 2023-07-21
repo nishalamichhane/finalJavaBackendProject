@@ -10,7 +10,6 @@ import java.util.Date;
 @Setter
 public class InvoiceDto {
     public long id;
-    public Double totalAmount;
     public Date invoiceDate;
     public User user;
     public Order order;
