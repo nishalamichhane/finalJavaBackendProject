@@ -54,7 +54,7 @@ public class InvoiceService {
         Date date = invoice.getInvoiceDate();
         String username = invoice.getOrder().getUser().getUsername();
         String subject = "This is the invoice date for your order" + date + " ," + username + ".";
-                String email = invoice.getOrder().getUser().getEmail();
+        String email = invoice.getOrder().getUser().getEmail();
         String body = username + "," +
                 " This is your email of Invoice. " +
                 "Order Id is " + orderid + "," +

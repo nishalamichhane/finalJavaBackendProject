@@ -6,9 +6,12 @@ import com.finalProject.nisha.models.Orderline;
 import jakarta.persistence.Lob;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
-
+@Getter
+@Setter
 public class ProductDto {
     public long id;
     @NotBlank
