@@ -28,6 +28,7 @@ public class Order {
     @JoinColumn(name = "username")
     private User user;
 
+
     public double calculateTotalAmount() {
         double totalAmount = 0;
         for (Orderline o : orderline){

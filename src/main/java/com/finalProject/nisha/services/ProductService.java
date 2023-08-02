@@ -81,7 +81,9 @@ public class ProductService {
         if(optionalProduct.isEmpty()) {
             throw new RecordNotFoundException("Product didn't find with this id: " + id);
         }
-        productRepository.deleteById(id);
+        Product product = optionalProduct.get();
+         //productRepository.deleteById(id);
+        productRepository.delete(product);
     }
 
     public ProductDto transferProductToDto(Product product) {
@@ -93,6 +95,8 @@ public class ProductService {
         productDto.category = product.getCategory();
         productDto.description = product.getDescription();
         productDto.orderlines = product.getOrderlines();
+        productDto.name = product.getName();
+        productDto.type = product.getType();
 
         return productDto;
     }
