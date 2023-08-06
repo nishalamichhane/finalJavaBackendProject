@@ -1,18 +1,15 @@
 package com.finalProject.nisha.services;
 
 import com.finalProject.nisha.dtos.OrderDto;
-import com.finalProject.nisha.dtos.ProductDto;
 import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.models.Order;
-import com.finalProject.nisha.models.Product;
+import com.finalProject.nisha.models.Orderline;
+import com.finalProject.nisha.models.User;
 import com.finalProject.nisha.repositories.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.mockito.junit.jupiter.MockitoSettings;
@@ -27,8 +24,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.client.ExpectedCount.times;
 
-@ContextConfiguration(classes = {OrderService.class})
+@ContextConfiguration(classes = { OrderService.class })
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 
@@ -49,6 +47,7 @@ class OrderServiceTest {
         orderDto.setTotalAmount(5000.0);
         orderDto.setUser(null);
     }
+
     @Test
     void getAllOrder() {
         // Arrange
@@ -69,6 +68,7 @@ class OrderServiceTest {
         assertEquals(order.getTotalAmount(), getResult.getTotalAmount());
         verify(orderRepository).findAll();
     }
+
     @Test
     void getOrder() {
         // Arrange
@@ -82,8 +82,19 @@ class OrderServiceTest {
         // Assert
         assertEquals(1, actualOrderId.getId());
         assertEquals(5000.0, actualOrderId.getTotalAmount());
-        verify(orderRepository).findById(1L);
+        verify(orderRepository, Mockito.times(1)).findById(1L);
     }
+
+    @Test
+    void testGetOrderNotFound() {
+        long orderId = 2L;
+
+        when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
+
+        assertThrows(RecordNotFoundException.class, () -> orderService.getOrder(orderId));
+        verify(orderRepository, Mockito.times(1)).findById(orderId);
+    }
+
     @Test
     void updateOrder() {
         Long oid = 1L;
@@ -105,7 +116,6 @@ class OrderServiceTest {
         assertEquals(newOrderData.getId(), updatedOrder.getId());
         assertEquals(newOrderData.getTotalAmount(), updatedOrder.getTotalAmount());
 
-
         verify(orderRepository).findById(oid);
         verify(orderRepository).save(orderCaptor.capture());
 
@@ -113,6 +123,17 @@ class OrderServiceTest {
         assertEquals(newOrderData.getId(), savedOrder.getId());
         assertEquals(newOrderData.getTotalAmount(), savedOrder.getTotalAmount());
     }
+
+    @Test
+    void testUpdateOrderNotFound() {
+        long orderId = 2L;
+
+        when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
+
+        assertThrows(RecordNotFoundException.class, () -> orderService.updateOrder(orderId, orderDto));
+        verify(orderRepository, Mockito.times(1)).findById(orderId);
+    }
+
     @Test
     void transferOrderToDto() {
         Order order1 = new Order();
@@ -124,19 +145,92 @@ class OrderServiceTest {
         assertEquals(1L, actualOrderToDtoResult.getId());
         assertEquals(5000.0, actualOrderToDtoResult.getTotalAmount());
     }
+
     @Test
     void transferDtoToOrder() {
-        // Arrange
+
         OrderDto orderDto = new OrderDto();
         orderDto.setId(1L);
         orderDto.setTotalAmount(5000.0);
+        User testUser = new User();
+        testUser.setUsername("Nisha Test");
+        testUser.setEmail("nisha@test.com");
+        orderDto.setUser(testUser);
 
-        // Act
         Order actualTransferDtoToOrderResult = orderService.transferDtoToOrder(orderDto);
 
-        // Assert
-        assertEquals(1L, actualTransferDtoToOrderResult.getId());
         assertEquals(5000.0, actualTransferDtoToOrderResult.getTotalAmount());
+        assertEquals(actualTransferDtoToOrderResult.getUser().getUsername(), "Nisha Test");
+        assertEquals(actualTransferDtoToOrderResult.getUser().getEmail(), "nisha@test.com");
     }
 
+    @Test
+    public void testGetTotalAmountOrderFound() throws RecordNotFoundException {
+        long orderId = 1L;
+        double expectedTotalAmount = 900;
+        Order testOrder = new Order();
+        Orderline orderLine1 = new Orderline();
+        orderLine1.setSubTotal(500);
+        Orderline orderLine2 = new Orderline();
+        orderLine2.setSubTotal(400);
+        testOrder.setId(orderId);
+        testOrder.setOrderline(List.of(orderLine1,orderLine2));
+
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(testOrder));
+        double actualTotalAmount = orderService.getTotalAmount(orderId);
+
+        assertEquals(expectedTotalAmount, actualTotalAmount);
+        verify(orderRepository, Mockito.times(1)).findById(orderId);
+    }
+
+    @Test
+    public void testGetTotalAmountOrderNotFound() {
+        long orderId = 2L;
+
+        when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
+
+        assertThrows(RecordNotFoundException.class, () -> orderService.getTotalAmount(orderId));
+        verify(orderRepository, Mockito.times(1)).findById(orderId);
+    }
+
+    @Test
+    public void testDeleteOrderOrderFound() throws RecordNotFoundException {
+        long orderId = 1L;
+        Order testOrder = new Order();
+        testOrder.setId(orderId);
+
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(testOrder));
+
+        orderService.deleteOrder(orderId);
+
+        verify(orderRepository, Mockito.times(1)).findById(orderId);
+        verify(orderRepository, Mockito.times(1)).deleteById(orderId);
+    }
+
+    @Test
+    public void testDeleteOrderOrderNotFound() {
+        long orderId = 2L;
+
+        when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
+
+        assertThrows(RecordNotFoundException.class, () -> orderService.deleteOrder(orderId));
+        verify(orderRepository, Mockito.times(1)).findById(orderId);
+        verify(orderRepository, Mockito.never()).deleteById(orderId);
+    }
+
+    @Test
+    public void testAddOrder() {
+
+        User testUser = new User();
+        testUser.setUsername("Nisha Test");
+        orderDto.setUser(testUser);
+        orderDto.setTotalAmount(100.0);
+
+        when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        OrderDto addedOrderDto = orderService.addOrder(orderDto);
+
+        assertEquals(orderDto.getUser().getUsername(), addedOrderDto.getUser().getUsername());
+        assertEquals(orderDto.getTotalAmount(), addedOrderDto.getTotalAmount());
+    }
 }

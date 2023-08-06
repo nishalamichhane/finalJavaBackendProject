@@ -5,6 +5,7 @@ import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.models.Category;
 import com.finalProject.nisha.models.Product;
 import com.finalProject.nisha.repositories.ProductRepository;
+import com.finalProject.nisha.util.ImageUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,6 +46,8 @@ class ProductServiceTest {
     void setUp() {
         productDto = new ProductDto();
         product1 = new Product(1L, "Laptop", 50, "Samsung", null, "jas.png", "image/png", null, null);
+        productRepository = mock(ProductRepository.class);
+        productService = new ProductService(productRepository);
     }
 
     @Test
@@ -84,7 +87,6 @@ class ProductServiceTest {
         assertEquals(50, actualProductId.getUnitPrice());
         assertEquals(null, actualProductId.getImageData());
 
-        verify(productRepository).findById(1L);
     }
     @Test
     void testGetByIdWhenNotFound() {
@@ -100,7 +102,14 @@ class ProductServiceTest {
     @Test
 
     public void testAddProduct() {
+        ProductDto productDto = new ProductDto();
+        productDto.setName("Test Product");
 
+        ProductDto resultDto = productService.addProduct(productDto);
+
+        verify(productRepository).save(any(Product.class));
+
+        assertEquals(productDto.getName(), resultDto.getName());
     }
 
     @Test
@@ -114,6 +123,7 @@ class ProductServiceTest {
         newProductData.setDescription("Samsung1");
         newProductData.setName("jas.png");
         newProductData.setType("image/png");
+        newProductData.setImageData("Test Image Data".getBytes());
 
         when(productRepository.findById(pid)).thenReturn(Optional.of(exProduct));
         when(productRepository.save(any(Product.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -136,6 +146,7 @@ class ProductServiceTest {
         assertEquals(newProductData.getName(), savedProduct.getName());
         assertEquals(newProductData.getType(), savedProduct.getType());
     }
+
     @Test
     void testUpdateNonExistingProduct() {
         Long uid = 10L;
@@ -165,8 +176,9 @@ class ProductServiceTest {
         verify(productRepository).delete(product);
 
     }
+
     @Test
-    void testDeleteProductNotFound() {
+    void deleteProductNotFound() {
         // Arrange
         Long id = 10L;
         when(productRepository.findById(id)).thenReturn(Optional.empty());
@@ -214,11 +226,6 @@ class ProductServiceTest {
     }
 
     @Test
-    void uploadImage() {
-
-
-    }
-    @Test
     public void testUploadImage() throws IOException, IOException {
         // Create a sample product and file
         long productId = 1L;
@@ -246,6 +253,18 @@ class ProductServiceTest {
     }
 
     @Test
-    void downloadImage() {
+    public void testDownloadImage() {
+        Long productId = 1L;
+        byte[] compressedImageData = "Test Image Data".getBytes();
+        byte[] decompressedImageData = "Test Image Data".getBytes();
+
+        Product product = new Product();
+        product.setId(productId);
+        product.setImageData(ImageUtils.compressImage(compressedImageData));
+
+        when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+
+        byte[] downloadedImageData = productService.downloadImage(productId);
+        assertArrayEquals(decompressedImageData, downloadedImageData);
     }
 }

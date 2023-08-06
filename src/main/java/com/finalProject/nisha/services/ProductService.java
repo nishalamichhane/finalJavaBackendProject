@@ -100,11 +100,8 @@ public class ProductService {
 
         return productDto;
     }
-
     public Product transferDtoToProduct(ProductDto productDto) {
         Product product = new Product();
-
-        // we don't need setId , that generates in the database or will be in de URL
         product.setProductName(productDto.productName);
         product.setUnitPrice(productDto.unitPrice);
         product.setCategory(productDto.category);
@@ -113,32 +110,25 @@ public class ProductService {
         product.setImageData(productDto.imageData);
         product.setType(productDto.type);
         product.setOrderlines(productDto.orderlines);
-
-        return product;
-    }
+        return product;    }
     public String uploadImage(MultipartFile file, Long id) throws IOException {
         Optional<Product> optionalProduct1 = productRepository.findById(id);
         Product product = optionalProduct1.get();
         Product imageData = productRepository.save(Product.builder().id(product.getId())
-                        .productName(product.getProductName())
-                        .description(product.getDescription())
-                        .id(product.getId())
-                        .unitPrice(product.getUnitPrice())
-                        .category(product.getCategory())
+                .productName(product.getProductName())
+                .description(product.getDescription())
+                .id(product.getId())
+                .unitPrice(product.getUnitPrice())
+                .category(product.getCategory())
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .imageData(ImageUtils.compressImage(file.getBytes())).build());
-        if (imageData != null) {
-            return "file uploaded successfully : " + file.getOriginalFilename();
-        }
-        return null;
+        return (imageData!=null) ? "file uploaded successfully : " + file.getOriginalFilename() : null;
     }
-
     @Transactional
     public byte[] downloadImage(Long id){
         Optional<Product> dbImageData = productRepository.findById(id);
         byte[] images=ImageUtils.decompressImage(dbImageData.get().getImageData());
         return images;
     }
-
 }
