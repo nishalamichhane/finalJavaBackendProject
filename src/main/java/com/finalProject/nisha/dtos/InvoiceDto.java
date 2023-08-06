@@ -13,5 +13,4 @@ public class InvoiceDto {
     public Date invoiceDate;
     public User user;
     public Order order;
-
 }

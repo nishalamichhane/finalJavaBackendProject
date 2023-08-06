@@ -3,7 +3,6 @@ package com.finalProject.nisha.services;
 import com.finalProject.nisha.dtos.OrderDto;
 import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.models.Order;
-import com.finalProject.nisha.models.Orderline;
 import com.finalProject.nisha.repositories.OrderRepository;
 
 import jakarta.transaction.Transactional;
@@ -78,8 +77,6 @@ public class OrderService {
         orderDto.id = order.getId();
         orderDto.totalAmount = order.getTotalAmount();
         orderDto.user = order.getUser();
-        //orderDto.orderline = order.getOrderline();
-        //orderDto.invoice = order.getInvoice();
         return orderDto;
     }
 
@@ -90,8 +87,6 @@ public class OrderService {
         order.setId(orderDto.id);
         order.setTotalAmount(orderDto.totalAmount);
         order.setUser(orderDto.user);
-        //order.setOrderline(orderDto.orderline);
-        //order.setInvoice(orderDto.invoice);
         return order;
     }
     public double getTotalAmount(long id) throws RecordNotFoundException {
