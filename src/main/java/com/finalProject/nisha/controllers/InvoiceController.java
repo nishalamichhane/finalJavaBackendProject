@@ -1,15 +1,10 @@
 package com.finalProject.nisha.controllers;
 
 import com.finalProject.nisha.dtos.InvoiceDto;
-import com.finalProject.nisha.dtos.OrderDto;
 import com.finalProject.nisha.exceptions.RecordNotFoundException;
-import com.finalProject.nisha.models.Invoice;
 import com.finalProject.nisha.services.InvoiceService;
-import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,7 +14,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/invoice")

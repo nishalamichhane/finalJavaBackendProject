@@ -1,11 +1,8 @@
 package com.finalProject.nisha.dtos;
 
 import com.finalProject.nisha.models.Authority;
-//import com.finalProject.nisha.models.Invoice;
 import com.finalProject.nisha.models.Order;
-//import com.finalProject.nisha.models.Orderline;
 import jakarta.validation.constraints.*;
-
 import java.util.List;
 import java.util.Set;
 

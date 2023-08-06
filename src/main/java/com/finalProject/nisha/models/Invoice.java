@@ -1,5 +1,4 @@
 package com.finalProject.nisha.models;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,6 +20,5 @@ public class Invoice {
     @JoinColumn(name = "orderId")
     @JsonIgnore
     private Order order;
-
 
 }

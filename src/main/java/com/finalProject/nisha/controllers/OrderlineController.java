@@ -1,6 +1,5 @@
 package com.finalProject.nisha.controllers;
 
-import com.finalProject.nisha.dtos.InvoiceDto;
 import com.finalProject.nisha.dtos.OrderlineDto;
 import com.finalProject.nisha.exceptions.RecordNotFoundException;
 import com.finalProject.nisha.services.OrderlineService;
@@ -70,6 +69,4 @@ public class OrderlineController {
         orderlineDto.subTotal = orderlineService.getSubTotalAmount(id);
         return new ResponseEntity<>(orderlineDto, HttpStatus.OK);
     }
-
-
 }

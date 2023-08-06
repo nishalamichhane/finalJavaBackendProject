@@ -2,11 +2,9 @@ package com.finalProject.nisha.controllers;
 
 import com.finalProject.nisha.dtos.ProductDto;
 import com.finalProject.nisha.exceptions.RecordNotFoundException;
-import com.finalProject.nisha.repositories.ProductRepository;
 import com.finalProject.nisha.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -82,5 +80,4 @@ public class ProductController {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
-
 }

@@ -5,7 +5,6 @@ import com.finalProject.nisha.exceptions.BadRequestException;
 import com.finalProject.nisha.exceptions.UsernameNotFoundException;
 import com.finalProject.nisha.services.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
